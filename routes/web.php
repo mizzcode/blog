@@ -28,9 +28,9 @@ Route::get('/about', function () {
         'name' => 'Mizz',
         'email' => 'mizzc0d3@gmail.com',
     ]);
-});
+})->name('about');
 
-Route::get('/blog', [PostController::class, 'index']);
+Route::get('/blog', [PostController::class, 'index'])->name('blog');
 
 // halaman single post
 Route::get('/posts/{post:slug}', [PostController::class, 'show']);
@@ -41,7 +41,7 @@ Route::get('/categories', function () {
         'active' => 'categories',
         'categories' => Category::all(),
     ]);
-});
+})->name('categories');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'auth']);

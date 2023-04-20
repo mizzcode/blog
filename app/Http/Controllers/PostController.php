@@ -16,17 +16,15 @@ class PostController extends Controller
             $category = Category::firstWhere('slug', request('category'));
             $title = ' in ' . $category->name;
         } else if (request('author')) {
-            $author = User::firstWhere('username', request('author'));
-            $title = ' By ' . $author->name;
+            $user = User::firstWhere('username', request('author'));
+            $title = ' By ' . $user->name;
         } else {
             $title = '';
         }
 
-
         return view('posts', [
             'title' => 'All Posts' . $title,
-            'active' => 'blog',
-            'posts' => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString(),,
+            'posts' => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(7)->withQueryString(),
         ]);
     }
 
@@ -34,7 +32,6 @@ class PostController extends Controller
     {
         return view('post', [
             'title' => 'Postingan',
-            'active' => 'blog',
             'post' => $post,
         ]);
     }
