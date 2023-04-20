@@ -7,7 +7,7 @@
   </div>
 
   <div class="col-lg-5">
-    <form method="post" action="/dashboard/posts">
+    <form method="post" action="{{ route('dashboard-posts.store') }}">
         @csrf
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -20,7 +20,7 @@
         </div>
         <div class="mb-3">
           <label for="slug" class="form-label">Slug</label>
-          <input type="text" class="form-control @error('title') is-invalid @enderror" id="slug" name="slug" disabled readonly value="{{ old('slug') }}">
+          <input type="text" class="form-control @error('title') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}">
           @error('slug')
           <div class="invalid-feedback">
             {{ $message }}

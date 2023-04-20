@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Post;
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use \Cviebrock\EloquentSluggable\Services\SlugService;
-use Exception;
 
 class DashboardPostController extends Controller
 {
@@ -59,7 +58,7 @@ class DashboardPostController extends Controller
             $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
             Post::create($validatedData);
-            return response()->redirect('/dashboard/posts')->with('success', 'Berhasil Tambah Postingan');
+            return response()->redirectTo('dashboard/posts')->with('success', 'Berhasil Tambah Postingan');
         } catch (Exception $e) {
             dd($e->getMessage());
         }
