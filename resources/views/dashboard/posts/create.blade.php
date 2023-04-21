@@ -47,7 +47,10 @@
             <input id="body" type="hidden" name="body" value="{{ old('body') }}">
             <trix-editor input="body" name='body'></trix-editor>
         </div>
-        <button type="submit" class="btn btn-primary mb-5">Create Post</button>
+        <div class="d-flex mb-4">
+          <a href="{{ route('dashboard-posts.index') }}" class="btn btn-danger">Back to my posts</a>
+          <button type="submit" class="btn btn-primary ms-auto">Create Post</button>
+        </div>
       </form>
   </div>
 
@@ -56,13 +59,11 @@
     const slug = document.querySelector("#slug");
 
     title.addEventListener("keyup", function() {
-        let preslug = title.value;
-        preslug = preslug.replace(/ /g,"-");
-        slug.value = preslug.toLowerCase();
+      slug.value = title.value.replace(/ /g,"-").toLowerCase();
     });
     // matikan fitur tool file
-    // document.addEventListener('trix-file-accept', function(e) {
-    //   e.preventDefault();
-    // });
+    document.addEventListener('trix-file-accept', function(e) {
+      e.preventDefault();
+    });
 </script> 
 @endsection

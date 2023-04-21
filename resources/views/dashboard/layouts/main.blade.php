@@ -174,6 +174,8 @@
 <script>
     feather.replace()
   </script>
+  
+@include('sweetalert::alert')
 
 </body>
 </html>

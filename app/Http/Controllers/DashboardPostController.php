@@ -9,11 +9,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DashboardPostController extends Controller
 {
-
-
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +57,8 @@ class DashboardPostController extends Controller
             $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
             Post::create($validatedData);
-            return response()->redirectTo('dashboard/posts')->with('success', 'Berhasil Tambah Postingan');
+
+            return back()->with('success', 'Berhasil Tambah Post');
         } catch (Exception $e) {
             dd($e->getMessage());
         }
@@ -108,15 +108,8 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        Post::destroy($post->id);
+
+        return back()->with('success', 'Berhasil Hapus Post');
     }
-
-    // public function checkSlug(Request $request)
-    // {
-    //     $slug = SlugService::createSlug(Post::class, 'slug', $request->title);
-
-    //     return response()->json([
-    //         'slug' => $slug
-    //     ]);
-    // }
 }
