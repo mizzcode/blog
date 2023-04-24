@@ -65,7 +65,7 @@ class Post extends Model
 
     /**
      * Get the route key for the model.
-     *
+     * Agar menggunakan slug, tidak id untuk get data route model binding
      * @return string
      */
     public function getRouteKeyName()

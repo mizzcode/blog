@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardPostController extends Controller
 {
@@ -49,16 +49,22 @@ class DashboardPostController extends Controller
             'title' => 'required|max:255',
             'slug' => 'required|unique:posts',
             'category_id' => 'required',
-            'body' => 'required'
+            'image' => 'image|file|max:2048',
+            'body' => 'required',
         ]);
 
         try {
+
+            if ($request->file('image')) {
+                $validatedData['image'] = $request->file('image')->store('image-post');
+            }
+
             $validatedData['user_id'] = Auth::user()->id;
             $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
 
             Post::create($validatedData);
 
-            return back()->with('success', 'Berhasil Tambah Post');
+            return redirect()->route('dashboard-posts.create')->with('success', 'Berhasil Tambah Post');
         } catch (Exception $e) {
             dd($e->getMessage());
         }
@@ -85,7 +91,10 @@ class DashboardPostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('dashboard.posts.edit', [
+            'post' => $post,
+            'categories' => Category::all(),
+        ]);
     }
 
     /**
@@ -97,7 +106,40 @@ class DashboardPostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        // rules untuk update
+        $rules = [
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'image' => 'image|file|max:2048',
+            'body' => 'required',
+        ];
+        // untuk menhindari jika slug sebelumnya dan sekarang sama kena unique
+        if ($request->slug != $post->slug) {
+            $rules['slug'] = 'required|unique:posts';
+        };
+        try {
+            $validatedData = $request->validate($rules);
+
+            if ($request->file('image')) {
+                // cek image lama agar di hapus di storage
+                if ($post->image != null) {
+                    Storage::delete($post->image);
+                }
+                // image baru akan di masukan ke storage
+                $validatedData['image'] = $request->file('image')->store('image-post');
+            }
+
+            // set untuk user saat ini dan excerpt kita limit
+            $validatedData['user_id'] = Auth::user()->id;
+            $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+            Post::where('id', $post->id)
+                ->update($validatedData);
+
+            return redirect()->route('dashboard-posts.index')->with('success', 'Berhasil Update Post');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage())->withInput();
+        }
     }
 
     /**
@@ -110,6 +152,6 @@ class DashboardPostController extends Controller
     {
         Post::destroy($post->id);
 
-        return back()->with('success', 'Berhasil Hapus Post');
+        return redirect()->route('dashboard-posts.index')->with('success', 'Berhasil Hapus Post');
     }
 }

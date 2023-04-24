@@ -26,6 +26,10 @@ class Controller extends BaseController
                 Alert::success(session('logout'));
             }
 
+            if (session('info')) {
+                Alert::info(session('info'));
+            }
+
             // jika ingin pake sweetalert2 dengan message lebih dari 1
             // if (session('errorForm')) {
             //     $html = "<ul style='list-style: none;'>";

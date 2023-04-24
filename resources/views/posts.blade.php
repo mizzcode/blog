@@ -5,7 +5,7 @@
 
     <div class="row justify-content-center">
       <div class="col-md-4">
-    <form class="d-flex mb-4 float-end" role="search" action="/blog">
+    <form class="d-flex mb-4 float-end" role="search" action="{{ route('blog') }}">
       @if (request('category'))
         <input type="hidden" name="category" value="{{ request('category') }}">
         @elseif (request('author'))
@@ -16,13 +16,16 @@
     </form>
       </div>
     </div>
-
     @if ($posts->count())
     <div class="card mb-5">
-        <img src="https://source.unsplash.com/1000x400?{{ $posts[0]->category->name }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
+      @if ($posts[0]->image != null)
+      <img src="{{ asset('storage/' . $posts[0]->image) }}" style="max-height: 420px" alt="">
+      @else
+      <img src="https://source.unsplash.com/1100x500?{{ $posts[0]->category->name }}" class="card-img-top mb-3" alt="{{ $posts[0]->category->name }}">
+      @endif
         <div class="card-body text-center">
 
-          <h3 class="card-title"><a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none text-black">{{ $posts[0]->title }}</a></h3>
+          <h3 class="card-title"><a href="{{ route('post-blog', ['post' => $posts[0]->slug]) }}" class="text-decoration-none text-black">{{ $posts[0]->title }}</a></h3>
 
           <p>
             <small class="text-body-secondary">
@@ -32,7 +35,7 @@
         </p>
 
           <p class="card-text">{{ $posts[0]->excerpt }}.</p>
-          <a href="/posts/{{ $posts[0]->slug }}" class="text-decoration-none btn btn-outline-info">Read More</a>
+          <a href="{{ route('post-blog', ['post' => $posts[0]->slug]) }}" class="text-decoration-none btn btn-outline-info">Read More</a>
         </div>
       </div>
 
@@ -44,7 +47,11 @@
             <div class="position-absolute text-white bg-dark rounded p-1" style="background-color: rgba(0, 0, 0, 0.7)">
               <a href="/blog?category={{ $post->category->slug }}" class="text-decoration-none text-white">{{ $post->category->name }}</a>
             </div>
-            <img src="https://source.unsplash.com/500x400?{{ $post->category->name }}" class="card-img-top" alt="{{ $posts[0]->category->name }}">
+            @if ($post->image != null)
+            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->category->name }}">
+            @else
+            <img src="https://source.unsplash.com/400x230?{{ $post->category->name }}" class="card-img-top mb-3" alt="{{ $post->category->name }}">
+            @endif
             <div class="card-body">
               <h5 class="card-title">{{ $post->title }}</h5>
               <p>
@@ -53,7 +60,7 @@
                 </small>
             </p>
               <p class="card-text">{{ $post->excerpt }}</p>
-              <a href="/posts/{{ $post->slug }}" class="text-decoration-none btn btn-outline-info">Read More</a>
+              <a href="{{ route('post-blog', ['post' => $post->slug]) }}}}" class="text-decoration-none btn btn-outline-info">Read More</a>
             </div>
           </div>
         </div>

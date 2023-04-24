@@ -1,17 +1,17 @@
 @extends('dashboard.layouts.main')
 
 @section('container')
-{{-- @dd($categories) --}}
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2 mt-2">Create New Post</h1>
+    <h1 class="h2 mt-2">Edit Post</h1>
   </div>
 
-  <div class="col-lg-6">
-    <form method="post" action="{{ route('dashboard-posts.store') }}" enctype="multipart/form-data">
-        @csrf
+  <div class="col-lg-5">
+    <form method="post" action="{{ route('dashboard-posts.update', ['post' => $post->slug]) }}" enctype="multipart/form-data">
+      @method('put')
+      @csrf
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
-          <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" autofocus value="{{ old('title') }}">
+          <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" autofocus value="{{ old('title', $post->title) }}">
           @error('title')
           <div class="invalid-feedback">
             {{ $message }}
@@ -20,7 +20,7 @@
         </div>
         <div class="mb-3">
           <label for="slug" class="form-label">Slug</label>
-          <input type="text" class="form-control @error('title') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug') }}">
+          <input type="text" class="form-control @error('title') is-invalid @enderror" id="slug" name="slug" value="{{ old('slug', $post->slug) }}">
           @error('slug')
           <div class="invalid-feedback">
             {{ $message }}
@@ -31,7 +31,7 @@
           <label for="category" class="form-label">Category</label>
           <select class="form-select" name="category_id">
             @foreach ($categories as $category)
-            @if (old('category_id') == $category->id)
+            @if (old('category_id', $post->category_id))
             <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
             @else
             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -41,7 +41,11 @@
         </div>
         <div class="mb-3">
           <label for="image" class="form-label fs-6">Image</label>
-          <img class="img-preview img-fluid mb-2 d-block col-sm-5">
+          @if ($post->image != null)
+            <img src="{{ asset('storage/' . $post->image) }}" class="img-preview img-fluid mb-2 d-block col-sm-9">
+            @else
+            <img class="img-preview img-fluid mb-2 d-block col-sm-9">
+          @endif
           <input class="form-control" id="image" type="file" name="image" onchange="previewImage()">
         </div>
         <div class="mb-3">
@@ -49,12 +53,12 @@
           @error('body')
           <p class="text-danger">{{ $message }}</p>
           @enderror
-            <input id="body" type="hidden" name="body" value="{{ old('body') }}">
-            <trix-editor input="body" name='body'></trix-editor>
+            <input id="body" type="hidden" name="body" value="{{ old('body', $post->body) }}">
+            <trix-editor input="body"></trix-editor>
         </div>
         <div class="d-flex mb-4">
           <a href="{{ route('dashboard-posts.index') }}" class="btn btn-danger">Back to my posts</a>
-          <button type="submit" class="btn btn-primary ms-auto">Create Post</button>
+          <button type="submit" class="btn btn-primary ms-auto">Update Post</button>
         </div>
       </form>
   </div>
@@ -71,7 +75,7 @@
       e.preventDefault();
     });
 
-    // untuk preview image ketika upload gambar
+     // untuk preview image ketika upload gambar
     const previewImage = () => {      
       // input image
       const image = document.querySelector('#image');
@@ -86,7 +90,6 @@
       fileReader.onload = (e) => {
         imgPreview.src = e.target.result;
       }
-    }  
-
+    }
 </script> 
 @endsection

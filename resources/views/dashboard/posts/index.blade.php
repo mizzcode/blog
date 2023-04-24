@@ -5,7 +5,7 @@
 <h2 class="my-4">My List Posts</h2>
 <a href="/dashboard/posts/create" class="btn btn-success mb-3">Create new post</a>
 <div class="table-responsive col-lg-7">
-  <table class="table table-striped table-sm ">
+  <table class="table table-striped table-sm text-center table-bordered">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -21,8 +21,8 @@
             <td>{{ $post->title }}</td>
             <td>{{ $post->category->name }}</td>
             <td>
-                <a href="/dashboard/posts/{{ $post->slug }}" class="badge bg-info"><i data-feather='eye'></i></a>
-                <a href="" class="badge bg-warning"><i data-feather='edit'></i></a>
+                <a href="{{ route('dashboard-posts.show', ['post' => $post->slug]) }}" class="badge bg-info"><i data-feather='eye'></i></a>
+                <a href="{{ route('dashboard-posts.edit', ['post' => $post->slug]) }}" class="badge bg-warning"><i data-feather='edit'></i></a>
                 <form action="{{ route('dashboard-posts.destroy', ['post' => $post->slug]) }}" class="d-inline" method="post">
                   @csrf
                   @method('delete')

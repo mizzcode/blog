@@ -1,18 +1,18 @@
-@extends('layout.main')
+@extends('dashboard.layouts.main')
 
 @section('container')
-    <h1 class="mb-5">Post Categories</h1>
+<h1 class="my-5">My Category</h1>
 
     <div class="container">
         <div class="row">
-            @foreach ($categories as $category)
+            
             <div class="col-md-4 mb-4">
                 <a href="/blog?category={{ $category->slug }}">
                 <div class="card text-bg-dark">
 
-                    @if ($category->image != null)
-                        <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
-                        @else
+                    @if ($category->image != null) 
+                        <img src="{{ asset('storage/' . $category->image) }}" class="card-img" alt="{{ $category->name }}">
+                    @else
                         <img src="https://source.unsplash.com/500x500?{{ $category->name }}" class="card-img" alt="{{ $category->name }}">
                     @endif
 
@@ -22,7 +22,7 @@
                   </div>
                 </a>
             </div>
-            @endforeach
+            
             
         </div>
     </div>

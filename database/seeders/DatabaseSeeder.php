@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -60,6 +61,20 @@ class DatabaseSeeder extends Seeder
         //     'category_id' => 3,
         //     'user_id' => 3,
         // ]);
+        User::create([
+            'name' => 'Mizz Code',
+            'username' => 'mizzcode',
+            'email' => 'mizzc0d3@gmail.com',
+            'password' => Hash::make('mizzcode'),
+            'is_admin' => true,
+        ]);
+        User::create([
+            'name' => 'Jani Code',
+            'username' => 'janicode',
+            'email' => 'janic0d3@gmail.com',
+            'password' => Hash::make('janicode')
+        ]);
+
         User::factory(5)->create();
 
         Category::create([

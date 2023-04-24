@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminCategoryController;
 use App\Http\Controllers\DashboardPostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -24,7 +25,6 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', function () {
     return view('about', [
         'title' => 'About',
-        'active' => 'about',
         'name' => 'Mizz',
         'email' => 'mizzc0d3@gmail.com',
     ]);
@@ -33,18 +33,17 @@ Route::get('/about', function () {
 Route::get('/blog', [PostController::class, 'index'])->name('blog');
 
 // halaman single post
-Route::get('/posts/{post:slug}', [PostController::class, 'show']);
+Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('post-blog');
 
 Route::get('/categories', function () {
     return view('categories', [
         'title' => 'Post Categories',
-        'active' => 'categories',
         'categories' => Category::all(),
     ]);
 })->name('categories');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [LoginController::class, 'auth']);
+Route::post('/login', [LoginController::class, 'auth'])->name('postLogin');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('/register', [RegisterController::class, 'index'])->name('register')->middleware('guest');
@@ -52,7 +51,8 @@ Route::post('/register', [RegisterController::class, 'store']);
 
 Route::get('/dashboard', function () {
     return view('dashboard.index');
-})->middleware('auth');
+})->middleware('auth')->name('dashboard');
 
-// Route::get('/dashboard/posts/checkSlug', [DashboardPostController::class, 'checkSlug'])->middleware('auth');
 Route::resource('dashboard/posts', DashboardPostController::class)->middleware('auth')->names('dashboard-posts');
+
+Route::resource('dashboard/categories', AdminCategoryController::class)->names('dashboard-categories');

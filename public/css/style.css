@@ -14,3 +14,7 @@
 .username {
     margin: 15px 0;
 }
+
+.img-show {
+    max-height: 400px;
+}

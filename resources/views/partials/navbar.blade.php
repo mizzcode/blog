@@ -6,10 +6,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="/">Home</a>
-          <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="/about">About</a>
-          <a class="nav-link {{ Request::is('blog') ? 'active' : ''}}" href="/blog">Blog</a>
-          <a class="nav-link {{ Request::is('categories') ? 'active' : ''}}" href="/categories">Categories</a>
+          <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
+          <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
+          <a class="nav-link {{ Request::is('blog') ? 'active' : ''}}" href="{{ route('blog') }}">Blog</a>
+          <a class="nav-link {{ Request::is('categories') ? 'active' : ''}}" href="{{ route('categories') }}">Categories</a>
         </div>
 
         <div class="navbar-nav ms-auto">

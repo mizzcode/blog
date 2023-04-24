@@ -7,7 +7,7 @@
             @csrf
             <div class="form-group">
                 <label class="form-label" for="username">Username</label>
-                <input class="form-control @error('username') is-invalid @enderror" type="text" name="username" autofocus required>
+                <input class="form-control @error('username') is-invalid @enderror" type="text" name="username" autofocus required {{ old('username') }}>
                 @error('username')
                 <div class="invalid-feedback">
                     {{ $message }}
