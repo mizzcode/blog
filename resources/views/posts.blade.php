@@ -60,7 +60,7 @@
                 </small>
             </p>
               <p class="card-text">{{ $post->excerpt }}</p>
-              <a href="{{ route('post-blog', ['post' => $post->slug]) }}}}" class="text-decoration-none btn btn-outline-info">Read More</a>
+              <a href="{{ route('post-blog', ['post' => $post->slug]) }}" class="text-decoration-none btn btn-outline-info">Read More</a>
             </div>
           </div>
         </div>

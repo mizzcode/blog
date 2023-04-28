@@ -9,7 +9,7 @@
             <div class="col-md-8">
                 <h2 class="mb-5">{{ $post->title }}</h2>       
                 
-                <p>By <a href="/blog?author={{ $post->author->username }}" class="text-decoration-none">{{ $post->author->name }}</a> in <a href="/blog?category=/{{ $post->category->slug }}" class="text-decoration-none">{{ $post->category->name }}</a></p>
+                <p>By <a href="/blog?author={{ $post->author->username }}" class="text-decoration-none">{{ $post->author->name }}</a> in <a href="/blog?category={{ $post->category->slug }}" class="text-decoration-none">{{ $post->category->name }}</a></p>
                 
                 @if ($post->image != null)
                 <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top mb-3" alt="{{ $post->category->name }}">
