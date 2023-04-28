@@ -16,6 +16,8 @@
 
 ```composer install```
 
+rename .env.example to .env and then change configuration the database to your database
+
 ## Migrate Database
 ```php artisan migrate```
 > untuk menjadi admin bisa set kolom is_admin menjadi 1
