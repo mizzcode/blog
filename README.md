@@ -16,7 +16,11 @@
 
 ```composer install```
 
-### Run Server
+## Migrate Database
+```php artisan migrate```
+> untuk menjadi admin bisa set kolom is_admin menjadi 1
+
+## Run Server
 ```php artisan serve```
 
 ## License
